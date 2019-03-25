@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 class Schools extends Component {
     state = {
@@ -15,7 +15,7 @@ class Schools extends Component {
     render() {
         const schoolList = this.state.data.map(res => {
             return (
-                <div className="data" id={res.pid}>
+                <div className="data" key={res.pid}>
                     <ul className="collections">
                         <li className="collections-item">
                             <div className="card horizontal">
@@ -25,7 +25,7 @@ class Schools extends Component {
                                 <div className="card-stacked card-body">
                                     <div className="card-content">
                                         <div className="card-title">
-                                           <NavLink to={'/SchoolDetails/'+res.pid} >{res.name}</NavLink>
+                                            <NavLink to={'/SchoolDetails/' + res.id} >{res.name}</NavLink>
                                         </div>
                                         <p>{res.board}</p>
                                         <p>{res.medium}</p>
