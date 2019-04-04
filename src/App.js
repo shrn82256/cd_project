@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import {BrowserRouter,Switch,Route} from 'react-router-dom';
-import Dashboard from './components/Dashboard'
-import SchoolDetails from './components/SchoolDetails';
-// require("bootstrap/less/bootstrap.less");
+import React, {Component} from 'react';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import SchoolList from './components/SchoolList'
+import SchoolDetail from './components/SchoolDetail';
 
 
 class App extends Component {
@@ -10,10 +9,10 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-            <Switch>
-              <Route exact path="/" component={Dashboard} />
-              <Route path="/SchoolDetails/:id" component={SchoolDetails} />
-            </Switch>
+          <Switch>
+            <Route exact path="/" component={SchoolList}/>
+            <Route exact path="/school/:id" component={SchoolDetail}/>
+          </Switch>
         </div>
       </BrowserRouter>
     );

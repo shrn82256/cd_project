@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class SchoolDetails extends Component {
+class SchoolDetail extends Component {
     state = {
         school: [],
     }
@@ -66,4 +66,4 @@ class SchoolDetails extends Component {
     }
 }
 
-export default SchoolDetails;
+export default SchoolDetail;
