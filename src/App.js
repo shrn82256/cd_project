@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import SchoolList from './components/SchoolList'
-import SchoolDetail from './components/SchoolDetail';
-
+import React, { Component } from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import SchoolDetail from "./components/SchoolDetail";
 
 class App extends Component {
   render() {
@@ -10,8 +9,8 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Switch>
-            <Route exact path="/" component={SchoolList}/>
-            <Route exact path="/school/:id" component={SchoolDetail}/>
+            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/school/:id" component={SchoolDetail} />
           </Switch>
         </div>
       </BrowserRouter>
