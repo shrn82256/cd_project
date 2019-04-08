@@ -1,59 +1,83 @@
 import React, { Component } from "react";
 import axios from "axios";
-import SchoolList from "./SchoolList";
+import classNames from "classnames";
+import SchoolList from "./school/SchoolList";
+import SchoolSearch from "./school/SchoolSearch";
+import "./Dashboard.css";
 
-// const api_url = "http://schoolhub-heroku.herokuapp.com/";
-const api_url = "http://localhost:5000/";
+const api_url = "http://schoolhub-heroku.herokuapp.com/";
+// const api_url = "http://localhost:5000/";
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
 
-    this.schools = this.fetchAllSchools();
-
-    console.log(this.schools);
-
     this.state = {
-      currentSchools: [],
-      hasMoreSchools: true
+      schools: null,
+      filteredSchools: null,
+      theme: "teal"
     };
   }
 
-  fetchAllSchools = async () => {
-    const response = await fetch(api_url);
-    const result = await response.json();
-    return result;
-  };
-
-  loadSchools = page => {
-    const multiplier = 20;
-    const currentSchools = this.state.currentSchools.concat(
-      this.schools.slice(page * multiplier, (page + 1) * multiplier)
-    );
-    console.log(this.schools.slice(page * multiplier, (page + 1) * multiplier));
-    console.log(this.schools);
+  updateSchools = filteredSchools => {
     this.setState({
       ...this.state,
-      currentSchools
+      filteredSchools
     });
+    console.log("updated schools");
   };
 
-  componentWillMount() {}
+  componentDidMount() {
+    axios
+      .get(api_url)
+      .then(res => {
+        const schools = res.data;
+        console.log("done");
+        this.setState({
+          ...this.state,
+          schools,
+          filteredSchools: schools
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   render() {
-    const { currentSchools, page, hasMoreSchools } = this.state;
+    const { schools, filteredSchools, theme } = this.state;
 
-    return (
-      <section className="section container">
-        <SchoolList
-          {...{
-            schools: currentSchools,
-            page,
-            hasMore: hasMoreSchools,
-            loadMore: this.loadSchools
-          }}
-        />
-      </section>
+    return schools ? (
+      <div>
+        <section className="section container">
+          <SchoolSearch
+            schools={schools}
+            updateSchools={this.updateSchools}
+            {...{ theme }}
+          />
+          <SchoolList {...{ schools: filteredSchools, theme }} />
+        </section>
+      </div>
+    ) : (
+      <div
+        id="loader-parent"
+        style={{ height: window.innerHeight }}
+        className=""
+      >
+        <div className="preloader-wrapper big active">
+          <div className={classNames(`spinner-${theme}-only`, "spinner-layer")}>
+            <div className="circle-clipper left">
+              <div className="circle" />
+            </div>
+            <div className="gap-patch">
+              <div className="circle" />
+            </div>
+            <div className="circle-clipper right">
+              <div className="circle" />
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
